@@ -1,5 +1,7 @@
 # coffee.py
 class Coffee:
+    _orders = []
+
     def __init__(self, name):
         self.name = name
 
@@ -14,5 +16,16 @@ class Coffee:
         if len(value) < 3:
             raise ValueError("Name must be at least 3 characters long.")
         self._name = value
-espresso = Coffee("Espresso")
-print(espresso.name)  # Output: Espresso
+
+    def orders(self):
+        """Return a list of all orders for this coffee."""
+        return [order for order in Coffee._orders if order.coffee == self]
+
+    def customers(self):
+        """Return a unique list of customers who have ordered this coffee."""
+        return list(set(order.customer for order in self.orders()))
+
+    @classmethod
+    def add_order(cls, order):
+        """Register a new order for the coffee."""
+        cls._orders.append(order)
