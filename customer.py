@@ -1,15 +1,15 @@
-from coffee import Coffee  # Import the Coffee class
-from order import Order    # Import the Order class
+from coffee import Coffee  
+from order import Order    
 
 class Customer:
-    def _init_(self, name):
+    def __init__(self, name):
         # Validate that the name is between 1 and 15 characters
         if 1 <= len(name) <= 15:
             self._name = name
         else:
             raise ValueError("Customer name must be between 1 and 15 characters")
         
-        # Initialize an empty list to hold the orders for this customer
+        # Initialize an empty list to hold the orders for the customer
         self._orders = []
 
     # Property for getting the customer's name

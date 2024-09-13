@@ -1,5 +1,5 @@
 class Coffee:
-    def _init_(self, name):
+    def __init__(self, name):
         # Validate that the name is at least 3 characters long
         if len(name) >= 3:
             self._name = name
@@ -20,14 +20,14 @@ class Coffee:
         from order import Order
 
         if not isinstance(order, Order):
-            raise TypeError("order must be an instance of Order")
+            raise ValueError("order must be an instance of Order")
         self._orders.append(order)
 
     # Method to return the total number of orders for this coffee
     def num_orders(self):
         return len(self._orders)
 
-    # Method to calculate the average price of the coffee based on orders
+    # Method to calculate the average price of the coffee 
     def average_price(self):
         if not self._orders:
             return 0.0
