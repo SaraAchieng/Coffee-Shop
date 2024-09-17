@@ -1,3 +1,5 @@
+from order import Order
+
 class Coffee:
     def __init__(self, name):
         # Validate that the name is at least 3 characters long
@@ -5,33 +7,25 @@ class Coffee:
             self._name = name
         else:
             raise ValueError("Coffee name must be at least 3 characters long")
+        self.name = name
         
-        # Initialize an empty list to hold the orders for this coffee
-        self._orders = []
+    # Returns a list of all Order instances associated with this coffee
+    def orders(self):
+        return [order for order in Order.all_orders if order.coffee == self]
 
-    # Property for getting the coffee's name
-    @property
-    def name(self):
-        return self._name
-
-    # Method to add an order to this coffee's list
-    def add_order(self, order):
-        # Delay the import to avoid circular dependency
-        from order import Order
-
-        if not isinstance(order, Order):
-            raise ValueError("order must be an instance of Order")
-        self._orders.append(order)
-
-    # Method to return the total number of orders for this coffee
+    def customers(self):
+        return list(set([order.customer for order in self.orders()]))
+    
+    # Returns the total number of orders for this coffee.
     def num_orders(self):
-        return len(self._orders)
-
-    # Method to calculate the average price of the coffee 
+        return len(self.orders())
+    
+    # Returns the average price of this coffee based on its orders.
     def average_price(self):
-        if not self._orders:
-            return 0.0
-        total_price = sum(order.price for order in self._orders)
-        return total_price / len(self._orders)
+        orders = self.orders()
+        if orders:
+            total_price = sum(order.price for order in orders)
+            return total_price / len(orders)
+        return 0
 
 

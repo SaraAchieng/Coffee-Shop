@@ -1,5 +1,4 @@
-from coffee import Coffee  
-from order import Order    
+from order import Order
 
 class Customer:
     def __init__(self, name):
@@ -8,32 +7,19 @@ class Customer:
             self._name = name
         else:
             raise ValueError("Customer name must be between 1 and 15 characters")
-        
-        # Initialize an empty list to hold the orders for the customer
-        self._orders = []
-
-    # Property for getting the customer's name
-    @property
-    def name(self):
-        return self._name
-
-    # Method to create an order for this customer
-    def create_order(self, coffee, price):
-        # Check if the coffee argument is an instance of Coffee class
-        if not isinstance(coffee, Coffee):
-            raise TypeError("coffee must be an instance of Coffee")
-        if not (1.0 <= price <= 10.0):
-            raise ValueError("Price must be between 1.0 and 10.0")
-
-        # Create a new order and associate it with the customer and coffee
-        order = Order(self, coffee, price)
-        self._orders.append(order)
-        coffee.add_order(order)
-        return order
-
-    # Method to return all orders placed by this customer
+        self.name = name
+    # Returns a list of all Order instances associated with this customer
     def orders(self):
-        return self._orders
+        return [order for order in Order.all_orders if order.customer == self]
+    
+    # Returns a list of unique Coffee instances ordered by this customer
+    def coffees(self):
+        return list(set([order.coffee for order in self.orders()]))
+    
+    #Creates a new Order instance for this customer with the given coffee and price
+    def create_order(self, coffee, price):
+        Order(self, coffee, price)
+
 
         
      
